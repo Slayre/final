@@ -16,22 +16,40 @@ using namespace std;
 vector<Menu> generateRoute(void);
 void road(vector<Menu> &game);
 
+//Usually a vector member function but rewritten for use with a template
 template<class InputIterator, class T>
 InputIterator find (InputIterator first, InputIterator last, const T& val);
 
+template <class Obj>
+void attack(Obj &attacker, Obj &attackee);
+
 int main()
 {
-	generateRoute();
+	//generateRoute();
 	vector<Menu> game = generateRoute();
 	road(game);
     return 0;
 }
 
+template <class Obj>
+int attack(Obj &attacker, Obj &attackee){
+	double atker = ( attacker.getatklvl() / attackee.getatklvl() ) / 100; // determines attackers percent of hitting
+	double atkee = ( attackee.getatklvl() / attacker.getatklvl() ) / 100; // determines attackees percent of hitting
+	double roll = atker * 100;
+	if(atker > atkee){
+
+		attacker.attack(atkee);
+	}
+
+}
+
 void road(vector<Menu> &game) {
     vector<Menu>::iterator menu;
 	menu = find( game.begin(), game.end(), "mainroad");
-    while (menu != game.end())
+    while (menu != game.end()){
         menu = find(game.begin(), game.end(), menu->getChoice());
+
+    }
 }
 
 template<class InputIterator, class T>
@@ -43,6 +61,9 @@ template<class InputIterator, class T>
   }
   return last;
 }
+
+
+
 
 vector<Menu> generateRoute(void){
 	vector<Menu> game{

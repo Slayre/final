@@ -13,8 +13,8 @@ using namespace std;
 
 class Player
 {
-	int health, maxhealth, level, atklvl, deflvl;
-	double exp;
+	int health, maxhealth, level, atklvl;
+	double exp, exptonextlevel;
 	string name;
 
 	void setLevel();

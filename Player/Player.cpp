@@ -17,8 +17,8 @@ Player::Player()
 	health = maxhealth;
 	level = 1;
 	atklvl = 1;
-	deflvl = 1;
 	exp = 0;
+	exptonextlevel = 25;
 }
 
 Player::Player(string n)
@@ -28,6 +28,13 @@ Player::Player(string n)
 	health = maxhealth;
 	level = 1;
 	atklvl = 1;
-	deflvl = 1;
 	exp = 0;
+	exptonextlevel = 25;
+}
+
+void Player::levelup(){
+	if(exp >= exptonextlevel)
+		level++;
+	else
+		exptonextlevel -= exp;
 }
