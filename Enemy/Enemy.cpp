@@ -10,8 +10,18 @@
 #include <iostream>
 using namespace std;
 
-Enemy::Enemy(){
-
-
+Enemy::Enemy()
+{
+	name = "Enemy";
+	maxhealth = 100;
+	health = maxhealth;
+	rewardexp = 10;
 }
 
+Enemy::Enemy(string n, int mh, int exp)
+{
+	name = n;
+	maxhealth = mh;
+	health = maxhealth;
+	rewardexp = exp;
+}

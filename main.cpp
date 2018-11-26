@@ -14,36 +14,21 @@ using namespace std;
 
 
 vector<Menu> generateRoute(void);
-void road(vector<Menu> &game);
+void start(vector<Menu> &game);
 
 //Usually a vector member function but rewritten for use with a template
 template<class InputIterator, class T>
 InputIterator find (InputIterator first, InputIterator last, const T& val);
 
-template <class Obj>
-void attack(Obj &attacker, Obj &attackee);
-
 int main()
 {
 	//generateRoute();
-	vector<Menu> game = generateRoute();
-	road(game);
+	vector <Menu> game = generateRoute();
+	start(game);
     return 0;
 }
 
-template <class Obj>
-int attack(Obj &attacker, Obj &attackee){
-	double atker = ( attacker.getatklvl() / attackee.getatklvl() ) / 100; // determines attackers percent of hitting
-	double atkee = ( attackee.getatklvl() / attacker.getatklvl() ) / 100; // determines attackees percent of hitting
-	double roll = atker * 100;
-	if(atker > atkee){
-
-		attacker.attack(atkee);
-	}
-
-}
-
-void road(vector<Menu> &game) {
+void start(vector<Menu> &game) {
     vector<Menu>::iterator menu;
 	menu = find( game.begin(), game.end(), "mainroad");
     while (menu != game.end()){
@@ -62,18 +47,31 @@ template<class InputIterator, class T>
   return last;
 }
 
-
-
-
 vector<Menu> generateRoute(void){
 	vector<Menu> game{
 	    Menu("mainroad",
-	            "You are on a road that heads west and east of your position.\n"
-	            "Which way will you go?\n",
+	            "You begin your quest along the path to the castle.\n"
+	            "You come up to a fork in the road. Which way will you go?\n",
 				std::vector<std::pair<string,string> >{
-	                {"Go West", "spider"},
-	                {"Go East", "brickhouse"},
-	                {"Wait for something to happen", "dragon"}}),
+	                {"Go left", "spider"},
+	                {"Go right", "troll"},}),
+	    //right
+	    Menu("troll",
+	           "Trotting along to the right, you come across a bridge.\n"
+	           "A troll appears and dubs himself 'The Gate Keeper'.\n"
+	    	   "And annouces the only way through the gate is him.",
+	             std::vector<std::pair<string,string> >{
+	                 {"Fight the Troll", "trollfight"},
+	                 {"Attempt to out-brain the Troll", "trick"},}),
+		Menu("troll",
+				"'Aye, if there is only one way through, then what if I were Bill Gates?' You say.\n"
+				 "'Well then you would have to go through me!' The troll responds.\n"
+				 "'But he only uses windows!' You retort.\n"
+				 "The troll, angry, cannot combat your logic and lets you pass.\n",
+				 std::vector<std::pair<string,string> >{
+					  {"Fight the Troll", "trollfight"},
+					  {"Attempt to out-brain the Troll", "trick"},}),
+	    //left
 	    Menu("spider",
 	            "You travel down the road, about only 100 metres and you encounter \n"
 	            "a giant spider with vicious poison coated fangs.\n"
@@ -81,8 +79,8 @@ vector<Menu> generateRoute(void){
 	            "What on earth will you do?\n\n",
 				std::vector<std::pair<string, string> >{
 	                {"Attempt to attack the spider with your sword.","spiderattack"},
-	                {"Throw your sword in the off chance it might kill it.","throwsword"},
-	                {"RUN FOR YOUR LIFE!", "running"}}),
+	                {"Throw your sword in the off chance it might kill it.","hauntedforest"},}),
+		//fight spider
 	    Menu("spiderattack",
 	            "You viscously swing your sword at the spiders general direction.\n"
 	            "The swing was so great, your arms jolts out of place,\n"
@@ -92,17 +90,56 @@ vector<Menu> generateRoute(void){
 	            "What on earth is it doing?\n"
 	            "Oh My God! The spider is devouring everything....\n"
 	            "All that remained was bones of the once mobile adventurer.\n"),
-	    Menu("brickhouse",
-	            "After a mile walk, you arrive at an old brick house.\n"
-	            "You walk slowly inside.\n"
-	            "The door slams behind you and the room lightens up.\n"
-	            "What on earth is going on...?\n\n"
-	            "Unable to open the door, you look around for anything of use.\n"
-	            "Nothing, not a single piece of furniture.\n"
-	            "What will you do?\n",
+		Menu("adventurers",
+			    "After defeating the spider, you notice two adventurers stuck in it's web. \n"
+			    "They yell for your help but you seem to sense danger nearby.\n",
 				std::vector<std::pair<string, string> >{
-	                {"Wait for someone to save you.", "trapdoor"},
-	                {"Or Wait for someone to save you.", "library"}})
+			                {"Help the stranded adventurers.","helpweb"},
+			                {"Flee the area and leave the adventurers","fleeweb"},}),
+		 Menu("fleeweb",
+				"You slash through the web as you trying to make it out.\n"
+			    "As you're nearing the end, you notice something moving in the distance.\n",
+				std::vector<std::pair<string, string> >{
+	                {"Investigate..","magician"},}),
+		 Menu("helpweb",
+				"The web is thick and begins to weigh down your sword.\n"
+				"But you manage to cut the adventurers free.\n"
+				"They thank you and would like to join you along your quest.\n",
+				std::vector<std::pair<string, string> >{
+				      {"'Sure! Could always use the extra help!'","magician"},
+	    			  {"'It's too dangerous for you two.. Stay here.'","magician"}}),
+		Menu("magician",
+				"As you continue on the trail, you begin to make out what is ahead of you.\n"
+				"It is a tall man with a wizard's hat.\n"
+				"He approaches you and is intrigued by your quest. \n"
+				"He offers some gear to you in aid.\n",
+				std::vector<std::pair<string, string> >{
+					  {"Take gear","goblins"},}),
+		Menu("goblins",
+				"Continuing your route, your eyes fixate on the castle just over the horizon.\n"
+				"Two snarling, green goblins ambush you!\n"
+				"Your only option is to fight!\n",
+				std::vector<std::pair<string, string> >{
+						{"Fight!","deadknight"},}),
+		//escape spider
+	    Menu("hauntedforest",
+	            "You manage to escape into the woods and hear evil witch laughs further along the path.\n"
+	            "You continue along the path but the witch has put a curse on you!.\n"
+	            "You will now lose 5% health per turn.\n",
+				std::vector<std::pair<string, string> >{
+	                {"Continue along the path.", "witch"},}),
+		 Menu("witch",
+			    "You catch the witch off-guard while she is brewing a potion.\n"
+				"Sneak up on her and take her out!\n",
+				std::vector<std::pair<string, string> >{
+				    {"Attack!", "witchshouse"},}),
+		Menu("witchshouse",
+			"After defeating the witch, you aren't able to tell what potion she was creating.\n"
+			"Although you see an empty vial sitting next to her cauldron.\n",
+			  std::vector<std::pair<string, string> >{
+					{"Fill Vial!", "potion"},
+	    			{"Leave House", "deadknight"}}),
 	};
+
 	return game;
 }

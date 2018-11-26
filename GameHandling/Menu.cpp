@@ -8,13 +8,14 @@
 #include <iostream>
 
 #include "Menu.hpp"
+#include <vector>
 using namespace std;
 
 
 const string Menu::menuend{"END"};
 
 Menu::Menu(const string &name, const string &prompt,
-        const std::vector<std::pair<string, string> > &choices)
+        const vector<pair<string, string> > &choices)
 		  : name(name), prompt(prompt), choices(choices)
 {}
 

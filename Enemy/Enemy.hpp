@@ -18,8 +18,10 @@ protected:
 	string name;
 	int maxhealth, health;
 	//int level, atklevel, deflevel, rewardexp;
+	int rewardexp;
 public:
 	Enemy();
+	Enemy(string n, int mh, int exp);
 	~Enemy(){};
 	//int getAtkLevel(){return atklevel;};
 	void attack();

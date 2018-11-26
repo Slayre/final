@@ -18,11 +18,11 @@ class Menu
 	static const string menuend;
 	string name, prompt;
 	//pair is a container that stores two values mapped to each other
-	vector < pair < string , string > > choices; // @suppress("Invalid template argument")
+	vector < pair < string , string > > choices;
 public:
 	Menu(const string &name, const string &prompt,
-			const vector<pair<string,string>> &choices = // @suppress("Invalid template argument")
-					vector<pair<string, string>>{}); // @suppress("Invalid template argument")
+			const vector<pair<string,string>> &choices =
+					vector<pair<string, string>>{});
 	virtual ~Menu(){};
 	const string& getChoice() const;
 	bool operator == (const string &n) const {return n == name;};
