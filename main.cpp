@@ -6,9 +6,12 @@
  */
 
 #include <iostream>
+#include <exception>
 
 #include "GameHandling\Menu.hpp"
-#include "GameHandling\RandomEvent.hpp"
+#include "Enemy\Spider.hpp"
+#include "Enemy\Troll.hpp"
+#include "GameHandling\Event.hpp"
 #include "Player\Player.hpp"
 using namespace std;
 
@@ -20,31 +23,88 @@ void start(vector<Menu> &game);
 template<class InputIterator, class T>
 InputIterator find (InputIterator first, InputIterator last, const T& val);
 
+template<class Type1, class Type2>
+void fight (Type1 & player, Type2 & enemy);
+
+
 int main()
 {
 	//generateRoute();
 	vector <Menu> game = generateRoute();
 	start(game);
+
     return 0;
 }
 
 void start(vector<Menu> &game) {
+	Player player;
+
+
+
+
     vector<Menu>::iterator menu;
 	menu = find( game.begin(), game.end(), "mainroad");
-    while (menu != game.end()){
-        menu = find(game.begin(), game.end(), menu->getChoice());
+	try{
+		while (menu != game.end())
+		{
+			menu = find(game.begin(), game.end(), menu->getChoice());
+			cin.ignore();
+			if(menu == find( game.begin(), game.end(), "trollfight"))
+			{
+				Troll troll;
+				fight(player, troll);
+			}
+			if(menu == find( game.begin(), game.end(), "trolltreasure"))
+			{
+				Event trollchest;
+				player.loot(trollchest);
+			}
+		}
+	}
+	catch(int dead)
+	{
+		if(player.getHealth() <= 0)
+		{
+			cout<< "You have died!";
+			exit(0);
+		}
+	}
 
-    }
+
+
 }
+
 
 template<class InputIterator, class T>
   InputIterator find (InputIterator first, InputIterator last, const T& val)
 {
-  while (first!=last) {
+  while (first!=last)
+  {
     if (*first==val) return first;
     ++first;
   }
   return last;
+}
+
+template<class Type1, class Type2>
+void fight (Type1 & player, Type2 & enemy)
+{
+	int pattacks, eattacks;
+	eattacks = 1;
+	if(player.getFollowers() > 0)
+		pattacks = player.getFollowers() + 1;
+	else
+		pattacks = 1;
+
+	while ( player.getHealth() > 0 && enemy.getHealth() > 0 )
+	{
+		for (int i = 0; i < pattacks; i++){
+			player.attack(enemy);
+		}
+		for (int j = 0; j < eattacks; j++){
+			enemy.attack(player);
+		}
+	}
 }
 
 vector<Menu> generateRoute(void){
@@ -59,7 +119,7 @@ vector<Menu> generateRoute(void){
 	    Menu("troll",
 	           "Trotting along to the right, you come across a bridge.\n"
 	           "A troll appears and dubs himself 'The Gate Keeper'.\n"
-	    	   "And annouces the only way through the gate is him.",
+	    	   "And annouces the only way through the gate is him.\n",
 	             std::vector<std::pair<string,string> >{
 	                 {"Fight the Troll", "trollfight"},
 	                 {"Attempt to out-brain the Troll", "trick"},}),
@@ -85,8 +145,7 @@ vector<Menu> generateRoute(void){
 				"'But he only uses windows!' You retort.\n"
 				"The troll, angry, cannot combat your logic and lets you pass.\n",
 				std::vector<std::pair<string,string> >{
-					 {"Fight the Troll", "trollfight"},
-					 {"Attempt to out-brain the Troll", "trick"},}),
+					 {"Continue your journey", "shop"},}),
 		Menu("shop",
 				"Further along the path, you come across a traveling merchant.\n"
 				"Enchanted by your story, he lets you shop for a discount.\n",
@@ -178,8 +237,15 @@ vector<Menu> generateRoute(void){
 			"After defeating the witch, you aren't able to tell what potion she was creating.\n"
 			"Although you see an empty vial sitting next to her cauldron.\n",
 			  std::vector<std::pair<string, string> >{
-					{"Fill Vial!", "potion"},
+					{"Fill Vial", "potion"},
 	    			{"Leave House", "deadknight"}}),
+		Menu("potion",
+			"You discover a book next to the vial that is badly beaten up.\n"
+			"You manage to make out the word 'Health' \n"
+				"and assume she must be making health potions!\n"
+				"You take one.\n",
+				std::vector<std::pair<string, string> >{
+					{"Leave House", "deadknight"},}),
 	};
 
 	return game;

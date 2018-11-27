@@ -8,7 +8,11 @@
 #ifndef RANDOMEVENT_HPP_
 #define RANDOMEVENT_HPP_
 
+class Event{
 
+public:
+	Event();
+};
 
 
 

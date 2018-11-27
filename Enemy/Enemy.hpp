@@ -16,15 +16,16 @@ class Enemy
 {
 protected:
 	string name;
-	int maxhealth, health;
+	int maxhealth, health, damage;
 	//int level, atklevel, deflevel, rewardexp;
-	int rewardexp;
 public:
 	Enemy();
-	Enemy(string n, int mh, int exp);
+	Enemy(string n, int mh, int dmg);
 	~Enemy(){};
+	void takeDamage(int damage){health -= damage;};
 	//int getAtkLevel(){return atklevel;};
-	void attack();
+	template<class Player>
+	void attack(Player & player);
 
 };
 

@@ -8,13 +8,14 @@
 #ifndef PLAYER_HPP_
 #define PLAYER_HPP_
 
+#include "\final\GameHandling\Event.hpp"
 #include <iostream>
 using namespace std;
 
 class Player
 {
-	int health, maxhealth, level, atklvl;
-	double exp, exptonextlevel;
+	int health, maxhealth, gold, followers;
+	double exp, exptonextlevel, sworddmg;
 	string name;
 
 	void setLevel();
@@ -27,12 +28,14 @@ public:
 	Player (string n);
 	~Player(){};
 
-	void levelup();
-	void takedamage();
-	void givedamage();
-	void attack();
-	void block();
+	//getters
+	int getFollowers(void){return this->followers;};
+	int getHealth(void){return this->health;};
 
+	template<class EnemyType>
+	void attack(EnemyType & enemy){enemy.takeDamage(sworddmg);};
+	void takeDamage(int damage);
+	void loot(Event event);
 };
 
 

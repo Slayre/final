@@ -15,13 +15,18 @@ Enemy::Enemy()
 	name = "Enemy";
 	maxhealth = 100;
 	health = maxhealth;
-	rewardexp = 10;
+	damage = 10;
 }
 
-Enemy::Enemy(string n, int mh, int exp)
+Enemy::Enemy(string n, int mh, int dmg)
 {
 	name = n;
 	maxhealth = mh;
 	health = maxhealth;
-	rewardexp = exp;
+	damage = dmg;
+}
+
+template<class Player>
+void Enemy::attack(Player & player){
+	player.takeDamage(damage);
 }

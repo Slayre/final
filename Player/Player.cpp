@@ -6,7 +6,6 @@
  */
 
 #include "Player.hpp"
-
 #include <iostream>
 using namespace std;
 
@@ -15,10 +14,11 @@ Player::Player()
 	name = "Frodo";
 	maxhealth = 100;
 	health = maxhealth;
-	level = 1;
-	atklvl = 1;
+	gold = 50;
+	sworddmg = 15;
 	exp = 0;
 	exptonextlevel = 25;
+	followers = 0;
 }
 
 Player::Player(string n)
@@ -26,15 +26,19 @@ Player::Player(string n)
 	name = n;
 	maxhealth = 100;
 	health = maxhealth;
-	level = 1;
-	atklvl = 1;
+	gold = 50;
+	sworddmg = 15;
 	exp = 0;
 	exptonextlevel = 25;
+	followers = 0;
 }
 
-void Player::levelup(){
-	if(exp >= exptonextlevel)
-		level++;
-	else
-		exptonextlevel -= exp;
+void Player::takeDamage(int damage){
+	health -= damage;
+	cout <<name << " : " << this->health<<endl;
+	if (health <= 0){
+		throw health;
+	}
 }
+
+

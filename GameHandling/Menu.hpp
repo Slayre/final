@@ -25,6 +25,7 @@ public:
 					vector<pair<string, string>>{});
 	virtual ~Menu(){};
 	const string& getChoice() const;
+	const string getName() const {return this->name;};
 	bool operator == (const string &n) const {return n == name;};
 };
 

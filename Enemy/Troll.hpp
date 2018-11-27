@@ -1,22 +1,23 @@
 /*
- * Spider.hpp
+ * Troll.hpp
  *
  *  Created on: Nov 7, 2018
  *      Author: Cole-LENOVO
  */
 
-#ifndef ENEMY_SPIDER_HPP_
-#define ENEMY_SPIDER_HPP_
+#ifndef ENEMY_TROLL_HPP_
+#define ENEMY_TROLL_HPP_
 #include "Enemy.hpp"
 
-class Spider : public Enemy
+class Troll : public Enemy
 {
 
 public:
-	Spider();
-	~Spider(){};
+	Troll();
+	~Troll(){};
 	int getHealth(void){return this->health;};
-	void takeDamage(int damage){health -= damage;};
+	void takeDamage(int damage){health -= damage; cout << name<< " : " << health <<endl;};
+
 	template<class Player>
 	void attack(Player & player){player.takeDamage(damage);};
 };
@@ -24,4 +25,4 @@ public:
 
 
 
-#endif /* ENEMY_SPIDER_HPP_ */
+#endif /* ENEMY_Troll_HPP_ */
