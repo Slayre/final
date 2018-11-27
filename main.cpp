@@ -5,6 +5,7 @@
  *      Author: d294m567
  */
 
+#include <vector>
 #include <iostream>
 #include <exception>
 
@@ -13,10 +14,14 @@
 #include "Enemy\Troll.hpp"
 #include "GameHandling\Event.hpp"
 #include "Player\Player.hpp"
+#include "Player\Gear.hpp"
 using namespace std;
 
 
 vector<Menu> generateRoute(void);
+vector<vector<Gear>> generateGear(void);
+
+
 void start(vector<Menu> &game);
 
 //Usually a vector member function but rewritten for use with a template
@@ -38,6 +43,8 @@ int main()
 
 void start(vector<Menu> &game) {
 	Player player;
+	vector<vector<Gear>> gear = generateGear();
+
 
 
 
@@ -47,18 +54,26 @@ void start(vector<Menu> &game) {
 	try{
 		while (menu != game.end())
 		{
-			menu = find(game.begin(), game.end(), menu->getChoice());
-			cin.ignore();
-			if(menu == find( game.begin(), game.end(), "trollfight"))
+			/*if(menu == find( game.begin(), game.end(), "trollfight"))
 			{
 				Troll troll;
 				fight(player, troll);
-			}
-			if(menu == find( game.begin(), game.end(), "trolltreasure"))
+				menu == find( game.begin(), game.end(), "trolltreasure");
+			}*/
+			/*if(menu == find( game.begin(), game.end(), "trolltreasure"))
 			{
-				Event trollchest;
-				player.loot(trollchest);
+				Event trollchest("trollchest", 50, gear.front());
+				int i = rand() % trollchest.getVecSize();
+				player.loot(trollchest.getLoot(i));
+				menu == find( game.begin(), game.end(), "shop");
 			}
+			if(menu == find( game.begin(), game.end(), "spiderattack"))
+						{
+							Spider spider;
+							fight(player, spider);
+						}*/
+			menu = find(game.begin(), game.end(), menu->getChoice());
+			cin.ignore();
 		}
 	}
 	catch(int dead)
@@ -89,6 +104,8 @@ template<class InputIterator, class T>
 template<class Type1, class Type2>
 void fight (Type1 & player, Type2 & enemy)
 {
+	//pattacks = number of player attacks (used for loop)
+	//eattacks = number of enemy attacks (always 1 for this game)
 	int pattacks, eattacks;
 	eattacks = 1;
 	if(player.getFollowers() > 0)
@@ -107,6 +124,24 @@ void fight (Type1 & player, Type2 & enemy)
 	}
 }
 
+vector<vector<Gear>> generateGear(void)
+{
+	vector<Gear> weapons{ Gear("Excalibur", "sword", 3, 0),
+
+	};
+	vector<Gear> armor{ Gear("Knight's Helmet", "helmet", 1, 10),
+
+	};
+
+	//create new vector to store the armor and weapons in one list
+	vector<vector<Gear>> gear;
+	//concatenate vectors onto vector gear
+	gear.push_back(weapons);
+	gear.push_back(armor);
+
+	return gear;
+}
+
 vector<Menu> generateRoute(void){
 	vector<Menu> game{
 	    Menu("mainroad",
@@ -123,14 +158,6 @@ vector<Menu> generateRoute(void){
 	             std::vector<std::pair<string,string> >{
 	                 {"Fight the Troll", "trollfight"},
 	                 {"Attempt to out-brain the Troll", "trick"},}),
-//after tricking the troll, player goes to shop
-		Menu("trick",
-				"'Aye, if there is only one way through, then what if I were Bill Gates?' You say.\n"
-				 "'Well then you would have to go through me!' The troll responds.\n"
-				 "'But he only uses windows!' You retort.\n"
-				 "The troll, angry, cannot combat your logic and lets you pass.\n",
-				 std::vector<std::pair<string,string> >{
-					  {"Continue along your path.", "shop"},}),
 //player must fight troll then continues to shop.
 		Menu("trollfight",
 				"The troll swings his giant fist at you.\n"
@@ -139,13 +166,22 @@ vector<Menu> generateRoute(void){
 				"You choose to loot it.\n",
 				std::vector<std::pair<string,string> >{
 					 {"Loot", "trolltreasure"},}),
-		Menu("trolltreasure",
+						Menu("trolltreasure",
+								"'Aye, if there is only one way through, then what if I were Bill Gates?' You say.\n"
+								"'Well then you would have to go through me!' The troll responds.\n"
+								"'But he only uses windows!' You retort.\n"
+								"The troll, angry, cannot combat your logic and lets you pass.\n",
+								std::vector<std::pair<string,string> >{
+									 {"Continue your journey", "shop"},}),
+//after tricking the troll, player goes to shop
+		Menu("trick",
 				"'Aye, if there is only one way through, then what if I were Bill Gates?' You say.\n"
-				"'Well then you would have to go through me!' The troll responds.\n"
-				"'But he only uses windows!' You retort.\n"
-				"The troll, angry, cannot combat your logic and lets you pass.\n",
-				std::vector<std::pair<string,string> >{
-					 {"Continue your journey", "shop"},}),
+				 "'Well then you would have to go through me!' The troll responds.\n"
+				 "'But he only uses windows!' You retort.\n"
+				 "The troll, angry, cannot combat your logic and lets you pass.\n",
+				 std::vector<std::pair<string,string> >{
+					  {"Continue along your path.", "shop"},}),
+
 		Menu("shop",
 				"Further along the path, you come across a traveling merchant.\n"
 				"Enchanted by your story, he lets you shop for a discount.\n",
@@ -180,12 +216,11 @@ vector<Menu> generateRoute(void){
 	    Menu("spiderattack",
 	            "You viscously swing your sword at the spiders general direction.\n"
 	            "The swing was so great, your arms jolts out of place,\n"
-	            "creating a surge of pain.\n"
-	            "Your arm is now broken, and you fall to the ground in pain....\n"
-	            "The spider launches 3 metres straight into your body...\n"
-	            "What on earth is it doing?\n"
-	            "Oh My God! The spider is devouring everything....\n"
-	            "All that remained was bones of the once mobile adventurer.\n"),
+			    "After defeating the spider, you notice two adventurers stuck in it's web. \n"
+			    "They yell for your help but you seem to sense danger nearby.\n",
+				std::vector<std::pair<string, string> >{
+                	{"Help the stranded adventurers.","helpweb"},
+					{"Flee the area and leave the adventurers","fleeweb"},}),
 //2 adventurers in web, player can either flee or free them
 		Menu("adventurers",
 			    "After defeating the spider, you notice two adventurers stuck in it's web. \n"

@@ -8,14 +8,13 @@
 #ifndef PLAYER_HPP_
 #define PLAYER_HPP_
 
-#include "\final\GameHandling\Event.hpp"
+#include "Gear.hpp"
 #include <iostream>
 using namespace std;
 
 class Player
 {
-	int health, maxhealth, gold, followers;
-	double exp, exptonextlevel, sworddmg;
+	int health, maxhealth, gold, followers, sworddmg, defense;
 	string name;
 
 	void setLevel();
@@ -35,7 +34,7 @@ public:
 	template<class EnemyType>
 	void attack(EnemyType & enemy){enemy.takeDamage(sworddmg);};
 	void takeDamage(int damage);
-	void loot(Event event);
+	void loot(Gear gear);
 };
 
 

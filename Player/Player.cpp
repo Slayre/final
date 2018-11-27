@@ -16,8 +16,7 @@ Player::Player()
 	health = maxhealth;
 	gold = 50;
 	sworddmg = 15;
-	exp = 0;
-	exptonextlevel = 25;
+	defense = 0;
 	followers = 0;
 }
 
@@ -28,17 +27,22 @@ Player::Player(string n)
 	health = maxhealth;
 	gold = 50;
 	sworddmg = 15;
-	exp = 0;
-	exptonextlevel = 25;
+	defense = 0;
 	followers = 0;
 }
 
 void Player::takeDamage(int damage){
-	health -= damage;
+	health -= (damage - defense);
 	cout <<name << " : " << this->health<<endl;
 	if (health <= 0){
 		throw health;
 	}
+}
+
+void Player::loot(Gear gear)
+{
+	sworddmg = gear.getDamage();
+	defense += gear.getProtection();
 }
 
 
