@@ -15,8 +15,8 @@
 #include <exception>
 #include <iostream>
 
-#ifndef GAMEHANDLING_EXCEPTION_HPP_
-#define GAMEHANDLING_EXCEPTION_HPP_
+#ifndef EXCEPTION_HPP_
+#define EXCEPTION_HPP_
 
 
 namespace My_Exception

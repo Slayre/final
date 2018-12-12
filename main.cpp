@@ -48,12 +48,12 @@
 #include <exception>
 #include <algorithm>
 
-#include "GameHandling\Menu.hpp"
-#include "Enemy\Enemy.hpp"
-#include "GameHandling\Event.hpp"
-#include "GameHandling\Exception.hpp"
-#include "Player\Player.hpp"
-#include "Player\Gear.hpp"
+#include "Menu.hpp"
+#include "Enemy.hpp"
+#include "Event.hpp"
+#include "Exception.hpp"
+#include "Player.hpp"
+#include "Gear.hpp"
 using namespace std;
 
 vector<Menu> generateRoute(void);

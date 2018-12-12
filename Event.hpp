@@ -34,7 +34,7 @@
 #include <vector>
 #include <iostream>
 
-#include "../Player/Gear.hpp"
+#include "Gear.hpp"
 using namespace std;
 
 class Event{

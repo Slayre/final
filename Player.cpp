@@ -6,7 +6,7 @@
  */
 
 #include "Player.hpp"
-#include "..\GameHandling\Exception.hpp"
+#include "Exception.hpp"
 #include <iostream>
 #include <iomanip>
 
